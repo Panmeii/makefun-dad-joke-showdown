@@ -45,6 +45,14 @@ function verify(text: string): string[] {
   if (Buffer.from(text, "utf8").toString("utf8") !== text) {
     problems.push("entry does not survive a UTF-8 round-trip");
   }
+  // Delivery polish: no stray padding and no doubled spaces, so the
+  // line reads exactly as it would be spoken, with no stumbles.
+  if (text !== text.trim()) {
+    problems.push("entry has leading or trailing whitespace");
+  }
+  if (text.includes("  ")) {
+    problems.push("entry contains a doubled space");
+  }
   return problems;
 }
 
